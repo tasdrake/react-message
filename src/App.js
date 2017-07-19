@@ -164,6 +164,23 @@ class App extends Component {
     messages = messages.filter(e => !e.selected)
     this.setState({ messages })
   }
+
+  markRead = () => {
+    const messages = [...this.state.messages]
+    messages.map(e => {
+      e.read = 'read'
+    })
+    this.setState({ messages })
+  }
+
+  markUnread = () => {
+    const messages = [...this.state.messages]
+    messages.map(e => {
+      e.read = 'unread'
+    })
+    this.setState({ messages })
+  }
+
   render() {
     return (
       <main>
@@ -174,6 +191,8 @@ class App extends Component {
           addLabel={this.addLabel}
           removeLabel={this.removeLabel}
           deleteMessage={this.deleteMessage}
+          markRead={this.markRead}
+          markUnread={this.markUnread}
         />
         {
           this.state.show ? <Compose /> : null
