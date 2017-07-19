@@ -19,6 +19,15 @@ class Toolbar extends React.Component {
   }
 
   render() {
+    const checkedNumber = this.props.messages.filter(e => e.checked).length
+    let buttonClass
+    if (checkedNumber === this.props.messages.length) {
+      buttonClass = 'fa fa-check-square-o'
+    } else if (checkedNumber > 0) {
+      buttonClass = 'fa fa-minus-square-o'
+    } else {
+      buttonClass = 'fa fa-square-o'
+    }
     return (
       <div className="row toolbar">
         <div className="col-md-12">
@@ -31,7 +40,7 @@ class Toolbar extends React.Component {
           </a>
 
           <button className="btn btn-default" onClick={this.props.checkAll}>
-            <i className="fa fa-minus-square"></i>
+            <i className={buttonClass}></i>
           </button>
 
           <button className="btn btn-default">Mark As Read</button>
