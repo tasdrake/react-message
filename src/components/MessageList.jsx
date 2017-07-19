@@ -13,13 +13,13 @@ class MessageList extends React.Component {
                 star={this.props.star}
                 check={this.props.check}
                 read={e.read}
-                content={e.text}
-                checked={e.checked}
+                subject={e.subject}
                 selected={e.selected}
                 labels={e.labels}
                 key={i}
-                index={i}
-                selectStar={e.selectStar}
+                id={e.id}
+                starred={e.starred}
+                body={e.body}
               />
           })
         }
