@@ -24,7 +24,7 @@ class MessageList extends React.Component {
           })
         }
       </div>
-    )
+    );
   }
 }
 
