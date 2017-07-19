@@ -168,7 +168,9 @@ class App extends Component {
   markRead = () => {
     const messages = [...this.state.messages]
     messages.map(e => {
-      e.read = 'read'
+      if (e.selected) {
+        e.read = 'read'
+      }
     })
     this.setState({ messages })
   }
@@ -176,7 +178,9 @@ class App extends Component {
   markUnread = () => {
     const messages = [...this.state.messages]
     messages.map(e => {
-      e.read = 'unread'
+      if (e.selected) {
+        e.read = 'unread'
+      }
     })
     this.setState({ messages })
   }
