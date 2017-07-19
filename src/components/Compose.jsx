@@ -4,20 +4,15 @@ import '../index.css'
 class Compose extends React.Component {
   sendMessage = (e) => {
     e.preventDefault();
-    console.log(e.target);
     this.props.compose(this.state.body, this.state.subject);
     this.props.newMessage();
-    console.log(this.state.body);
-    console.log(this.state.subject);
   }
 
   subjectField = (e) => {
-    console.log(e.target.value);
     this.setState({ subject: e.target.value});
   }
 
   bodyField = (e) => {
-    console.log(e.target.value);
     this.setState({ body: e.target.value});
   }
 
