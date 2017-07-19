@@ -159,6 +159,11 @@ class App extends Component {
     this.setState({ messages })
   }
 
+  deleteMessage = () => {
+    let messages = [...this.state.messages]
+    messages = messages.filter(e => !e.selected)
+    this.setState({ messages })
+  }
   render() {
     return (
       <main>
@@ -168,6 +173,7 @@ class App extends Component {
           messages={this.state.messages}
           addLabel={this.addLabel}
           removeLabel={this.removeLabel}
+          deleteMessage={this.deleteMessage}
         />
         {
           this.state.show ? <Compose /> : null
