@@ -1,5 +1,5 @@
-import React from 'react'
-import '../index.css'
+import React from 'react';
+import '../index.css';
 
 class Compose extends React.Component {
   sendMessage = (e) => {
@@ -42,8 +42,8 @@ class Compose extends React.Component {
           </div>
         </div>
       </form>
-    )
+    );
   }
 }
 
-export default Compose
+export default Compose;

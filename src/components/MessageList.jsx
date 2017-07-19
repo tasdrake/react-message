@@ -1,6 +1,6 @@
-import React from 'react'
-import Message from './Message.jsx'
-import '../index.css'
+import React from 'react';
+import Message from './Message.jsx';
+import '../index.css';
 
 class MessageList extends React.Component {
   render() {
@@ -28,4 +28,4 @@ class MessageList extends React.Component {
   }
 }
 
-export default MessageList
+export default MessageList;

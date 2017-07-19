@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import Compose from './components/Compose.jsx'
-import MessageList from './components/MessageList.jsx'
-import Toolbar from './components/Toolbar.jsx'
-import './index.css'
+import Compose from './components/Compose.jsx';
+import MessageList from './components/MessageList.jsx';
+import Toolbar from './components/Toolbar.jsx';
+import './index.css';
 
 class App extends Component {
   constructor() {

@@ -1,5 +1,5 @@
-import React from 'react'
-import '../index.css'
+import React from 'react';
+import '../index.css';
 
 class Message extends React.Component {
   constructor(props) {
@@ -69,8 +69,8 @@ class Message extends React.Component {
             null
         }
       </div>
-    )
+    );
   }
 }
 
-export default Message
+export default Message;

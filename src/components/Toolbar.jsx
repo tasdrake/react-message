@@ -1,5 +1,5 @@
-import React from 'react'
-import '../index.css'
+import React from 'react';
+import '../index.css';
 
 class Toolbar extends React.Component {
   constructor(props) {
@@ -66,7 +66,7 @@ class Toolbar extends React.Component {
           </button>
         </div>
       </div>
-    )
+    );
   }
 }
 
