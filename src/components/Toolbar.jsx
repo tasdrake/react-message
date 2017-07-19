@@ -3,7 +3,7 @@ import '../index.css'
 
 class Toolbar extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       checkToggle: false,
       label: 0
@@ -11,28 +11,28 @@ class Toolbar extends React.Component {
   }
 
   toolLabelAdd = (e) => {
-    this.props.addLabel(e.target.value)
+    this.props.addLabel(e.target.value);
   }
 
   toolLabelRemove = (e) => {
-    this.props.removeLabel(e.target.value)
+    this.props.removeLabel(e.target.value);
   }
 
   render() {
-    const checkedNumber = this.props.messages.filter(e => e.checked).length
-    let buttonClass
+    const checkedNumber = this.props.messages.filter(e => e.selected).length;
+    let buttonClass;
     if (checkedNumber === this.props.messages.length) {
-      buttonClass = 'fa fa-check-square-o'
+      buttonClass = 'fa fa-check-square-o';
     } else if (checkedNumber > 0) {
-      buttonClass = 'fa fa-minus-square-o'
+      buttonClass = 'fa fa-minus-square-o';
     } else {
-      buttonClass = 'fa fa-square-o'
+      buttonClass = 'fa fa-square-o';
     }
     return (
       <div className="row toolbar">
         <div className="col-md-12">
           <p className="pull-right">
-            {this.props.messages.filter(e => e.read === 'unread').length} unread messages
+            {this.props.messages.filter(e => !e.read).length} unread messages
           </p>
 
           <a className="btn btn-danger" onClick={this.props.newMessage}>
@@ -47,15 +47,15 @@ class Toolbar extends React.Component {
 
           <button className="btn btn-default" onClick={this.props.markUnread}>Mark As Unread</button>
 
-          <select className="form-control label-select" onChange={this.toolLabelAdd} value={this.state.value}>
-            <option>Apply label</option>
+          <select className="form-control label-select" onChange={this.toolLabelAdd} value={this.state.value} >
+            <option selected disabled>Apply label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
 
           <select className="form-control label-select" onChange={this.toolLabelRemove} value={this.state.value}>
-            <option>Remove label</option>
+            <option selected disabled>Remove label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>

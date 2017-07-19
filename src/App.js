@@ -10,179 +10,189 @@ class App extends Component {
     super()
     this.state = {
       read: 'unread',
-      messages: [
-        {
-          text: ['You can\'t input the protocol without calculating the mobile RSS protocol!', 'Message body'],
-          read: 'unread',
-          labels: ['dev', 'gschool', 'personal'],
-          checked: false,
-          selected: false,
-          selectStar: false,
-        },
-        {
-          text: ['Connecting the system won\'t do anything, we need to input the mobile AI panel!', 'Message body'],
-          read: 'unread',
-          labels: [],
-          checked: false,
-          selected: false,
-          selectStar: false,
-        },
-        {
-          text: ['Use the 1080p HTTP feed, then you can parse the cross-platform hard drive!', 'Message body'],
-          read: 'unread',
-          labels: ['dev'],
-          checked: false,
-          selected: false,
-          selectStar: false,
-        },
-        {
-          text: ['We need to program the primary TCP hard drive!', 'Message body'],
-          read: 'unread',
-          labels: [],
-          checked: false,
-          selected: false,
-          selectStar: false,
-        },
-        {
-          text: ['If we override the interface, we can get to the HTTP feed through the virtual EXE interface!', 'Message body'],
-          read: 'unread',
-          labels: ['personal'],
-          checked: false,
-          selected: false,
-          selectStar: false,
-        },
-        {
-          text: ['We need to back up the wireless GB driver!', 'Message body'],
-          read: 'unread',
-          labels: [],
-          checked: false,
-          selected: false,
-          selectStar: false,
-        },
-        {
-          text: ['We need to index the mobile PCI bus!', 'Message body'],
-          read: 'unread',
-          labels: ['dev', 'personal'],
-          checked: false,
-          selected: false,
-          selectStar: false,
-        },
-        {
-          text: ['If we connect the sensor, we can get to the HDD port through the redundant IB firewall!', 'Message body'],
-          read: 'unread',
-          labels: ['gschool'],
-          checked: false,
-          selected: false,
-          selectStar: false,
-        }
-      ],
+      messages: [],
       show: false,
       all: false,
     }
   }
 
-  star = (i) => {
-    const messages = [...this.state.messages]
-    if (messages[i].selectStar) {
-      messages[i].selectStar = false;
-      this.setState({ messages })
-    } else {
-      messages[i].selectStar = true;
-      this.setState({ messages })
-    }
+  async componentDidMount() {
+    const response = await fetch('http://localhost:3003');
+    const messages = await response.json();
+    this.setState({ messages });
   }
 
-  check = (i) => {
-    const messages = [...this.state.messages]
-    if (messages[i].checked) {
-      messages[i].selected = false
-      messages[i].checked = false
-      this.setState({ messages })
+  star = (id) => {
+    const messages = [...this.state.messages];
+    if (messages[id].starred) {
+      messages[id].starred = false;
     } else {
-      messages[i].selected = 'selected'
-      messages[i].checked = true
-      this.setState({ messages })
+      messages[id].starred = true;
     }
-  }
-
-  readChange = (i) => {
-    const messages = [...this.state.messages]
-    messages[i].read = 'read'
     this.setState({ messages })
+    fetch(`http://localhost:3003/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(messages[id]),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    });
+  }
+
+  check = (id) => {
+    const messages = [...this.state.messages];
+    if (messages[id].selected) {
+      messages[id].selected = false;
+    } else {
+      messages[id].selected = true;
+    }
+    this.setState({ messages });
+  }
+
+  readChange = (id) => {
+    const messages = [...this.state.messages];
+    messages[id].read = true;
+    this.setState({ messages });
+    fetch(`http://localhost:3003/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(messages[id]),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    });
   }
 
   newMessage = () => {
     if (this.state.show) {
-      this.setState({show: false})
+      this.setState({show: false});
     } else {
-      this.setState({show: true})
+      this.setState({show: true});
     }
   }
 
   checkAll = () => {
-    const messages = [...this.state.messages]
+    const messages = [...this.state.messages];
     if (this.state.all) {
       messages.map(e => {
-        e.selected = false
-        e.checked = false
-      })
-      this.setState({ messages })
-      this.setState({ all: false })
+        e.selected = false;
+      });
+      this.setState({ all: false });
     } else {
       messages.map(e => {
-        e.selected = 'selected'
-        e.checked = true
-      })
-      this.setState({ messages })
-      this.setState({ all: true })
+        e.selected = true;
+      });
+      this.setState({ all: true });
     }
+    this.setState({ messages });
   }
 
   addLabel = (name) => {
-    const messages = [...this.state.messages]
+    const messages = [...this.state.messages];
     messages.map(e => {
       if (!e.labels.includes(name) && e.selected) {
-        e.labels.push(name)
+        e.labels.push(name);
+        fetch(`http://localhost:3003/${e.id}`, {
+          method: 'PATCH',
+          body: JSON.stringify(messages[e.id]),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          }
+        });
       }
-    })
-    this.setState({ messages })
+    });
+    this.setState({ messages });
   }
 
   removeLabel = (name) => {
-    const messages = [...this.state.messages]
+    const messages = [...this.state.messages];
     messages.map(e => {
       if (e.labels.includes(name) && e.selected) {
-        const index = e.labels.indexOf(name)
-        e.labels.splice(index, 1)
+        const index = e.labels.indexOf(name);
+        e.labels.splice(index, 1);
+        fetch(`http://localhost:3003/${e.id}`, {
+          method: 'PATCH',
+          body: JSON.stringify(messages[e.id]),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          }
+        });
       }
-    })
-    this.setState({ messages })
+    });
+    this.setState({ messages });
   }
 
   deleteMessage = () => {
-    let messages = [...this.state.messages]
+    let messages = [...this.state.messages];
+    messages.map(e => {
+      if (e.selected) {
+        fetch(`http://localhost:3003/${e.id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          }
+        });
+      }
+    });
     messages = messages.filter(e => !e.selected)
-    this.setState({ messages })
+    this.setState({ messages });
   }
 
   markRead = () => {
-    const messages = [...this.state.messages]
+    const messages = [...this.state.messages];
     messages.map(e => {
       if (e.selected) {
-        e.read = 'read'
+        e.read = true;
+        fetch(`http://localhost:3003/${e.id}`, {
+          method: 'PATCH',
+          body: JSON.stringify(messages[e.id]),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          }
+        });
       }
-    })
-    this.setState({ messages })
+    });
+    this.setState({ messages });
   }
 
   markUnread = () => {
-    const messages = [...this.state.messages]
+    const messages = [...this.state.messages];
     messages.map(e => {
       if (e.selected) {
-        e.read = 'unread'
+        e.read = false
+        fetch(`http://localhost:3003/${e.id}`, {
+          method: 'PATCH',
+          body: JSON.stringify(messages[e.id]),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          }
+        });
+      }
+    });
+    this.setState({ messages });
+  }
+
+  compose = (body, subject) => {
+    const messages = [...this.state.messages];
+    fetch(`http://localhost:3003/`, {
+      method: 'POST',
+      body: JSON.stringify({body, subject}),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
       }
     })
-    this.setState({ messages })
+    .then(res => res.json())
+    .then(data => {
+      messages.push(data[0]);
+      this.setState({ messages });
+    })
   }
 
   render() {
@@ -199,7 +209,7 @@ class App extends Component {
           markUnread={this.markUnread}
         />
         {
-          this.state.show ? <Compose /> : null
+          this.state.show ? <Compose compose={this.compose} newMessage={this.newMessage}/> : null
         }
         <MessageList
           readChange={this.readChange}
